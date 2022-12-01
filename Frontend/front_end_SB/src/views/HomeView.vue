@@ -1,5 +1,6 @@
 <template>
-  <hello-world />
+  <hello-world /> 
+
 </template>
 
 <script lang="ts">
