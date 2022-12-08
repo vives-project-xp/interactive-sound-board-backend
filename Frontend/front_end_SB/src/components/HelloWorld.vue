@@ -293,9 +293,20 @@ const handleProtocolChange = (value: string) => {
     <option value="instrument4">Instrument4</option>
   </select>
 </form>
-.pre-class {
-    white-space: pre;
-}
+
+<v-color-picker
+  dot-size="25"
+  hide-canvas
+  hide-inputs
+  hide-sliders
+  show-swatches
+  swatches-max-height="200"
+  class="mt-5"
+></v-color-picker>
+</v-col>
+<v-col cols="12">
+        
+
 <p align="left">Box 2?</p>
 <form action="/action_page.php" align="left">
   <label for="instrument">Choose an instrument: </label>
@@ -306,6 +317,16 @@ const handleProtocolChange = (value: string) => {
     <option value="instrument4">Instrument4</option>
   </select>
 </form>
+<v-color-picker
+  dot-size="25"
+  hide-canvas
+  hide-inputs
+  hide-sliders
+  show-swatches
+  swatches-max-height="200"
+></v-color-picker>
+</v-col>
+<v-col cols="12">
 <p align="left">Box 3?</p>
 <form action="/action_page.php" align="left">
   <label for="instrument">Choose an instrument: </label>
@@ -316,6 +337,16 @@ const handleProtocolChange = (value: string) => {
     <option value="instrument4">Instrument4</option>
   </select>
 </form>
+<v-color-picker
+  dot-size="25"
+  hide-canvas
+  hide-inputs
+  hide-sliders
+  show-swatches
+  swatches-max-height="200"
+></v-color-picker>
+</v-col>
+<v-col cols="12">
 <p align="left">Box 4?</p>
 <form action="/action_page.php" align="left">
   <label for="instrument">Choose an instrument: </label>
@@ -326,6 +357,16 @@ const handleProtocolChange = (value: string) => {
     <option value="instrument4">Instrument4</option>
   </select>
 </form>
+<v-color-picker
+  dot-size="25"
+  hide-canvas
+  hide-inputs
+  hide-sliders
+  show-swatches
+  swatches-max-height="200"
+></v-color-picker>
+</v-col>
+<v-col cols="12">
   <p align="left">Box 5?</p>
 <form action="/action_page.php" align="left">
   <label for="instrument">Choose an instrument: </label>
@@ -335,7 +376,18 @@ const handleProtocolChange = (value: string) => {
     <option value="instrument3">Instrument3</option>
     <option value="instrument4">Instrument4</option>
   </select>
+  
 </form>
+<v-color-picker
+  dot-size="25"
+  hide-canvas
+  hide-inputs
+  hide-sliders
+  show-swatches
+  swatches-max-height="200"
+></v-color-picker>
+</v-col>
+<v-col cols="12">
 <p align="left">Volume: </p>
 <v-slider
         v-model="box5.val"
@@ -344,8 +396,8 @@ const handleProtocolChange = (value: string) => {
         thumb-label
         ticks
   ></v-slider>
+</v-col>
 
-      </v-col>
 
       
 
@@ -362,14 +414,15 @@ const handleProtocolChange = (value: string) => {
 
         <!--Feedback when we connect -->
 
+        </v-col>
 
-
-     </v-col>
+     
 
 
 
     </v-row>
   </v-container>
+
 </template>
 
 
