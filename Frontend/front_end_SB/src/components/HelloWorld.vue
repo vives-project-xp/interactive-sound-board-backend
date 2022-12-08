@@ -1,4 +1,5 @@
 
+
 <!--
   Jonas, js versie
   export default {
@@ -6,7 +7,7 @@
       return {
         boxes: [],
         box: [
-          'box1', 'box2', 'box3', 'box4', 
+          'box1', 'box2', 'box3', 'box4',
         ],
         box1: { label: 'color', val: 0, color: 'purple' },
         box2: { label: 'color', val: 0, color: 'purple' },
@@ -18,23 +19,27 @@
     },
 };
 -->
-
+<!-- What do i need to read we have one volume, esp selecteren, Rollen , devices-->
 <script setup lang="ts">
 
 // Adding ref and reactive
-import {ref, reactive} from 'vue';
+import {ref, reactive, onMounted, watch} from 'vue';
 import * as mqtt from "mqtt/dist/mqtt.min";
 
+import type {Devices} from '@/types/devices';
+import { json } from 'stream/consumers';
 
-// For the list to select the boxes 
+// For the list to select the boxes
 const boxes = ref([]);
 // In this arry i'm gone need to iterate de enable devices from the topic test/devices/
-const box = ref(['box1' ])
 
+const devices_ = ref([] as Devices[]);
+
+// const box = ref([ ])
 const box1 = ref({
   label: 'color', 
   val : '0', 
-  color: 'purple'
+  color: 'purple',
 })
 
 let box2 = ref({
@@ -58,13 +63,17 @@ const box4 = ref({
 const box5= ref({
   label: 'color', 
   val : '0', 
-  color: 'purple'
+  color: 'purple',
+  topic: "test/frontend/volume",
+  qos: 0 as mqtt.QoS,
+  payload: "10",
 })
 
 // Mqtt part 
 
 const qosList = [0, 1, 2];
 
+// Connection data 
 const connection = reactive({
   clean: true,
   clientId: "emqx_vue3_" + Math.random().toString(16).substring(2, 8),
@@ -75,21 +84,20 @@ const connection = reactive({
 
 
 // We set the quality of service to 0 
-// we give an ref type topic that is dynamic 
+// we give an ref type topic that is dynamic
 const subscription = ref({
-  topic: "test/devices",
+  topic: "test/config",
   qos: 0 as mqtt.QoS,
 });
 
-// Publish topic to contact the Python Synth 
+// Publish topic to contact the Python Synth
 
 const publish = ref({
-  topic: "test/devices",
+  topic: "frontend/volume",
   qos: 0 as mqtt.QoS,
-  payload: 'Hello',
+  payload: "10",
   
 });
-
 
 const receiveNews = ref("");
 
@@ -112,7 +120,6 @@ const initData = () => {
   subscribeSuccess.value = false;
 };
 
-
 const handleOnReConnect = () => {
   retryTimes.value += 1;
   if (retryTimes.value > 5) {
@@ -132,6 +139,7 @@ const createConnection = () => {
     btnLoadingType.value = "connect";
     
     // Connection URL 
+    //const connectUrl = "ws://pi-of-terror:8080/ws";
     const connectUrl = "ws://mqtt.devbit.be:80/ws";
 
     //options
@@ -144,34 +152,35 @@ const createConnection = () => {
         btnLoadingType.value = "";
         console.log("connection successful");
       });
-
       client.value.on("reconnect", handleOnReConnect);
       client.value.on("error", (error) => {
         console.log("connection error:", error);
       });
 
       client.value.on("message", (topic: string, message) => {
-        receiveNews.value = receiveNews.value.concat(message.toString());
+       ///receiveNews.value = receiveNews.value.concat(message.toString());
         console.log(`received message: ${message} from topic: ${topic}`);
-        // We add the message recived by the topic devices 
-        // 
-          box.value.push(message.toString());
-        
-      
-      });
+        // We add the message recived by the topic devices
 
+
+          devices_.value = JSON.parse(message.toString());
+          console.log(`Devices Value :`);
+          console.log(devices_.value)
+
+      });
     }
   } catch (error) {
     btnLoadingType.value = "";
     console.log("mqtt.connect error:", error);
   }
 };
-
 // subscribe topic
 // https://github.com/mqttjs/MQTT.js#mqttclientsubscribetopictopic-arraytopic-object-options-callback
-const doSubscribe = () => {
-  btnLoadingType.value = "subscribe";
+const doSubscribeConfig = () => {
+
+
   const { topic, qos } = subscription.value;
+
   client.value.subscribe(
     topic,
     { qos },
@@ -181,55 +190,42 @@ const doSubscribe = () => {
         console.log("subscribe error:", error);
         return;
       }
+      
       subscribeSuccess.value = true;
       console.log("subscribe successfully:", granted);
-      console.log("Value-from-sub:", subscription.value);
-      // We add every time the value
-      // box.push(payload) We push the value every time
-      
-   
 
+      console.log("Value-from-sub:", subscription.value);
+
+      // We save the value that we subcribe to in an store and we visualize it.
     }
   );
 };
 
 
-
-// unsubscribe topic
-// https://github.com/mqttjs/MQTT.js#mqttclientunsubscribetopictopic-array-options-callback
-const doUnSubscribe = () => {
-  btnLoadingType.value = "unsubscribe";
-  const { topic, qos } = subscription.value;
-  client.value.unsubscribe(topic, { qos }, (error) => {
-    btnLoadingType.value = "";
-    subscribeSuccess.value = false;
-    if (error) {
-      console.log("unsubscribe error:", error);
-      return;
-    }
-    console.log(`unsubscribed topic: ${topic}`);
-  });
-};
-
-
 // publish message
 // https://github.com/mqttjs/MQTT.js#mqttclientpublishtopic-message-options-callback
-const doPublish = () => {
-  btnLoadingType.value = "publish";
-  const { topic, qos, payload } = publish.value;
 
-
-
+const doPublishValue = () => {
   // Save the value in box from the subcribe.
-  client.value.publish(topic, payload, { qos }, (error) => {
+  const { topic, qos, val } = box5.value;
+  client.value.publish(topic, val.toString(), { qos }, (error) => {
     btnLoadingType.value = "";
     if (error) {
       console.log("publish error:", error);
       return;
     }
-    console.log(`published message: ${payload}`);
+
+    console.log(`published message: ${val}`);
   });
 };
+
+// We publisch only when the value changes in box1.value
+watch(box5.value, async(newval, oldval) => {
+  console.log("publisching value via Watch")
+  doPublishValue()
+})
+
+// Need a function to check when the value of the topic has changed and we react on it 
 
 
 // disconnect
@@ -249,154 +245,75 @@ const destroyConnection = () => {
   }
 };
 
+// while, we subribe at real time 
+onMounted(()=>{
+  // We make first the conection 
+  createConnection();
 
-const handleProtocolChange = (value: string) => {
-  connection.port = value === "ws" ? 8084 : 80;
-  connection.port = value === "wss" ? 8084 : 8083;
-  connection.port = value === "mqtt" ? 8084 : 1883;
-
-};
-
+  // We subcribe onces only for the configuration soo every user has the same configuration
+  doSubscribeConfig();
+})
 
 </script>
 
 <template>
   <v-container>
     <v-row class="text-center">
-      <v-col cols="12">
-        
-      </v-col>
-
       <v-col class="mb-4">
-        <h1 class="display-2 font-weight-bold mb-3">
-          Interactive Soundboard
-        </h1>
-        
-  
-  <v-select
-    label="Which boxes are connected?"
-    v-model="boxes"
-    :items="box"
-    multiple
-    persistent-hint>
-  </v-select>
+            <h1 class="display-2 font-weight-bold mb-3">
+              Interactive Soundboard
+            </h1>
+                          <v-select
+                            label="Which boxes are connected?"
+                            v-model="boxes"
+                            :items="devices_.activedevices"
+                            multiple
+                            persistent-hint>
+                          </v-select>
 
-  
-  
-  <p align="left">Box 1?</p>
-<form action="/action_page.php" align="left">
-  <label for="wave">Choose the wave: </label>
-  <select id="wave" name="wave">
-    <option value="sinus">Sinus</option>
-    <option value="triangle">Triangle</option>
-    <option value="square">Square</option>
-    <option value="sawtooth">Sawtooth</option>
-  </select>
-</form>
+      <!-- Scalabel for all devices-->
+     <v-card v-for="device in devices_.activedevices"
+      :key="device.id"
+> 
 
-<v-color-picker
-  dot-size="25"
-  hide-canvas
-  hide-inputs
-  hide-sliders
-  show-swatches
-  swatches-max-height="200"
-  value="FF0000"
-  input=value
-  class="mt-5"
-></v-color-picker>
-</v-col>
-<v-col cols="12">
-        
+                          <p align="left">{{devices_.activedevices.device }}</p>
 
-<p align="left">Box 2?</p>
-<form action="/action_page.php" align="left">
-  <label for="wave">Choose the wave: </label>
-  <select id="wave" name="wave">
-    <option value="sinus">Sinus</option>
-    <option value="triangle">Triangle</option>
-    <option value="square">Square</option>
-    <option value="sawtooth">Sawtooth</option>
-  </select>
-</form>
-<v-color-picker
-  dot-size="25"
-  hide-canvas
-  hide-inputs
-  hide-sliders
-  show-swatches
-  swatches-max-height="200"
-  value="FF0000"
-  input=value
-></v-color-picker>
-</v-col>
-<v-col cols="12">
-<p align="left">Box 3?</p>
-<form action="/action_page.php" align="left">
-  <label for="wave">Choose the wave: </label>
-  <select id="wave" name="wave">
-    <option value="sinus">Sinus</option>
-    <option value="triangle">Triangle</option>
-    <option value="square">Square</option>
-    <option value="sawtooth">Sawtooth</option>
-  </select>
-</form>
-<v-color-picker
-  dot-size="25"
-  hide-canvas
-  hide-inputs
-  hide-sliders
-  show-swatches
-  swatches-max-height="200"
-  value="FF0000"
-  input=value
-></v-color-picker>
-</v-col>
-<v-col cols="12">
-<p align="left">Box 4?</p>
-<form action="/action_page.php" align="left">
-  <label for="wave">Choose the wave: </label>
-  <select id="wave" name="wave">
-    <option value="sinus">Sinus</option>
-    <option value="triangle">Triangle</option>
-    <option value="square">Square</option>
-    <option value="sawtooth">Sawtooth</option>
-    </select>
-    </form>
-<v-color-picker
-  dot-size="25"
-  hide-canvas
-  hide-inputs
-  hide-sliders
-  show-swatches
-  swatches-max-height="200"
-  value="FF0000"
-  input=value
-></v-color-picker>
-</v-col>
-<v-col cols="12">
-  <p align="left">Box 5?</p>
-<form action="/action_page.php" align="left">
-  <label for="wave">Choose the wave: </label>
-  <select id="wave" name="wave">
-    <option value="sinus">Sinus</option>
-    <option value="triangle">Triangle</option>
-    <option value="square">Square</option>
-    <option value="sawtooth">Sawtooth</option>
-  </select>
-  
-</form>
-<v-color-picker
-  dot-size="25"
-  hide-canvas
-  hide-inputs
-  hide-sliders
-  show-swatches
-  swatches-max-height="200"
-  value="FF0000"
-  input=value
-></v-color-picker>
-</v-col>
+                        <form action="/action_page.php" align="left">
+                          <label for="wave">Choose the wave: </label>
+
+                            <select id="wave" name="wave">
+
+                            <option value="sinus">Sinus</option>
+
+                            <option value="triangle">Triangle</option>
+
+                            <option value="square">Square</option>
+
+                            <option value="sawtooth">Sawtooth</option>
+
+                          </select>
+
+                        </form>
+
+                        <v-color-picker
+                          dot-size="25"
+                          hide-canvas
+                          hide-inputs
+                          hide-sliders
+                          show-swatches
+                          swatches-max-height="200"
+                          value="FF0000"
+                          input=value
+                          class="mt-5"
+                        ></v-color-picker>
+          </v-card>
+    </v-col>
+
+
+
+
+
+
 <v-col cols="12">
 <p align="left">Volume: </p>
 <v-slider
@@ -409,33 +326,8 @@ const handleProtocolChange = (value: string) => {
 </v-col>
 
 
-      
-
-
-      <!-- For debuggin purpuse-->
-     <v-col cols="12">
-      <!-- V-models for host port mountpoint client id username and password-->
-       <!--Make an V card and place it in -->
-
-       <!-- As response we get connection successful if it worked -->
-       <v-btn  @click="createConnection" :loading="btnLoadingType === 'connect'"> Connect </v-btn>
-       <v-btn @click="doSubscribe"  :loading="btnLoadingType === 'subscribe'"> subscribe    </v-btn>
-       <v-btn @click="doPublish" :loading="btnLoadingType === 'publish'" > publish </v-btn>
-
-        <!--Feedback when we connect -->
-
-        </v-col>
-
-     
-
-
-
     </v-row>
   </v-container>
 
 </template>
 
-
-<style>
-
-</style>
