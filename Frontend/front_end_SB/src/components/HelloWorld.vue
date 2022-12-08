@@ -285,12 +285,12 @@ const handleProtocolChange = (value: string) => {
   
   <p align="left">Box 1?</p>
 <form action="/action_page.php" align="left">
-  <label for="instrument">Choose an instrument: </label>
-  <select id="instrument" name="instrument">
-    <option value="instrument1">Instrument1</option>
-    <option value="instrument2">Instrument2</option>
-    <option value="instrument3">Instrument3</option>
-    <option value="instrument4">Instrument4</option>
+  <label for="wave">Choose the wave: </label>
+  <select id="wave" name="wave">
+    <option value="sinus">Sinus</option>
+    <option value="triangle">Triangle</option>
+    <option value="square">Square</option>
+    <option value="sawtooth">Sawtooth</option>
   </select>
 </form>
 
@@ -301,6 +301,8 @@ const handleProtocolChange = (value: string) => {
   hide-sliders
   show-swatches
   swatches-max-height="200"
+  value="FF0000"
+  input=value
   class="mt-5"
 ></v-color-picker>
 </v-col>
@@ -309,12 +311,12 @@ const handleProtocolChange = (value: string) => {
 
 <p align="left">Box 2?</p>
 <form action="/action_page.php" align="left">
-  <label for="instrument">Choose an instrument: </label>
-  <select id="instrument" name="instrument">
-    <option value="instrument1">Instrument1</option>
-    <option value="instrument2">Instrument2</option>
-    <option value="instrument3">Instrument3</option>
-    <option value="instrument4">Instrument4</option>
+  <label for="wave">Choose the wave: </label>
+  <select id="wave" name="wave">
+    <option value="sinus">Sinus</option>
+    <option value="triangle">Triangle</option>
+    <option value="square">Square</option>
+    <option value="sawtooth">Sawtooth</option>
   </select>
 </form>
 <v-color-picker
@@ -324,17 +326,19 @@ const handleProtocolChange = (value: string) => {
   hide-sliders
   show-swatches
   swatches-max-height="200"
+  value="FF0000"
+  input=value
 ></v-color-picker>
 </v-col>
 <v-col cols="12">
 <p align="left">Box 3?</p>
 <form action="/action_page.php" align="left">
-  <label for="instrument">Choose an instrument: </label>
-  <select id="instrument" name="instrument">
-    <option value="instrument1">Instrument1</option>
-    <option value="instrument2">Instrument2</option>
-    <option value="instrument3">Instrument3</option>
-    <option value="instrument4">Instrument4</option>
+  <label for="wave">Choose the wave: </label>
+  <select id="wave" name="wave">
+    <option value="sinus">Sinus</option>
+    <option value="triangle">Triangle</option>
+    <option value="square">Square</option>
+    <option value="sawtooth">Sawtooth</option>
   </select>
 </form>
 <v-color-picker
@@ -344,19 +348,21 @@ const handleProtocolChange = (value: string) => {
   hide-sliders
   show-swatches
   swatches-max-height="200"
+  value="FF0000"
+  input=value
 ></v-color-picker>
 </v-col>
 <v-col cols="12">
 <p align="left">Box 4?</p>
 <form action="/action_page.php" align="left">
-  <label for="instrument">Choose an instrument: </label>
-  <select id="instrument" name="instrument">
-    <option value="instrument1">Instrument1</option>
-    <option value="instrument2">Instrument2</option>
-    <option value="instrument3">Instrument3</option>
-    <option value="instrument4">Instrument4</option>
-  </select>
-</form>
+  <label for="wave">Choose the wave: </label>
+  <select id="wave" name="wave">
+    <option value="sinus">Sinus</option>
+    <option value="triangle">Triangle</option>
+    <option value="square">Square</option>
+    <option value="sawtooth">Sawtooth</option>
+    </select>
+    </form>
 <v-color-picker
   dot-size="25"
   hide-canvas
@@ -364,17 +370,19 @@ const handleProtocolChange = (value: string) => {
   hide-sliders
   show-swatches
   swatches-max-height="200"
+  value="FF0000"
+  input=value
 ></v-color-picker>
 </v-col>
 <v-col cols="12">
   <p align="left">Box 5?</p>
 <form action="/action_page.php" align="left">
-  <label for="instrument">Choose an instrument: </label>
-  <select id="instrument" name="instrument">
-    <option value="instrument1">Instrument1</option>
-    <option value="instrument2">Instrument2</option>
-    <option value="instrument3">Instrument3</option>
-    <option value="instrument4">Instrument4</option>
+  <label for="wave">Choose the wave: </label>
+  <select id="wave" name="wave">
+    <option value="sinus">Sinus</option>
+    <option value="triangle">Triangle</option>
+    <option value="square">Square</option>
+    <option value="sawtooth">Sawtooth</option>
   </select>
   
 </form>
@@ -385,6 +393,8 @@ const handleProtocolChange = (value: string) => {
   hide-sliders
   show-swatches
   swatches-max-height="200"
+  value="FF0000"
+  input=value
 ></v-color-picker>
 </v-col>
 <v-col cols="12">
