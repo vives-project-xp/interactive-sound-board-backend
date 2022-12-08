@@ -33,31 +33,31 @@ const box = ref(['box1' ])
 
 const box1 = ref({
   label: 'color', 
-  val : '3', 
+  val : '0', 
   color: 'purple'
 })
 
 let box2 = ref({
   label: 'color', 
-  val : '15', 
+  val : '0', 
   color: 'purple'
 })
 
 let box3 = ref({
   label: 'color', 
-  val : '4', 
+  val : '0', 
   color: 'purple'
 })
 
 const box4 = ref({
   label: 'color', 
-  val : '30', 
+  val : '0', 
   color: 'purple'
 })
 
 const box5= ref({
   label: 'color', 
-  val : '40', 
+  val : '0', 
   color: 'purple'
 })
 
@@ -293,15 +293,9 @@ const handleProtocolChange = (value: string) => {
     <option value="instrument4">Instrument4</option>
   </select>
 </form>
-<p align="left">Volume: </p>
-<v-slider
-        v-model="box1.val"
-        :color="box1.color"
-        step="10"
-        thumb-label
-        ticks
-  ></v-slider>
-
+.pre-class {
+    white-space: pre;
+}
 <p align="left">Box 2?</p>
 <form action="/action_page.php" align="left">
   <label for="instrument">Choose an instrument: </label>
@@ -312,14 +306,6 @@ const handleProtocolChange = (value: string) => {
     <option value="instrument4">Instrument4</option>
   </select>
 </form>
-<p align="left">Volume: </p>
-<v-slider
-        v-model="box2.val"
-        :color="box2.color"
-        step="10"
-        thumb-label
-        ticks
-  ></v-slider>
 <p align="left">Box 3?</p>
 <form action="/action_page.php" align="left">
   <label for="instrument">Choose an instrument: </label>
@@ -330,14 +316,6 @@ const handleProtocolChange = (value: string) => {
     <option value="instrument4">Instrument4</option>
   </select>
 </form>
-<p align="left">Volume: </p>
-<v-slider
-        v-model="box3.val"
-        :color="box3.color"
-        step="10"
-        thumb-label
-        ticks
-  ></v-slider>
 <p align="left">Box 4?</p>
 <form action="/action_page.php" align="left">
   <label for="instrument">Choose an instrument: </label>
@@ -348,14 +326,6 @@ const handleProtocolChange = (value: string) => {
     <option value="instrument4">Instrument4</option>
   </select>
 </form>
-<p align="left">Volume: </p>
-<v-slider
-        v-model="box4.val"
-        :color="box4.color"
-        step="10"
-        thumb-label
-        ticks
-  ></v-slider>
   <p align="left">Box 5?</p>
 <form action="/action_page.php" align="left">
   <label for="instrument">Choose an instrument: </label>
@@ -388,7 +358,7 @@ const handleProtocolChange = (value: string) => {
        <!-- As response we get connection successful if it worked -->
        <v-btn  @click="createConnection" :loading="btnLoadingType === 'connect'"> Connect </v-btn>
        <v-btn @click="doSubscribe"  :loading="btnLoadingType === 'subscribe'"> subscribe    </v-btn>
-       <v-btn @click="doPublish" :loading="btnLoadingType === 'publish'" > publisch </v-btn>
+       <v-btn @click="doPublish" :loading="btnLoadingType === 'publish'" > publish </v-btn>
 
         <!--Feedback when we connect -->
 
