@@ -1,0 +1,14 @@
+
+
+example json 
+
+{
+  "activedevices": [
+    "10:91:A8:F1:0F:7C", "10:91:A9:F1:0F:7C", "10:91:A8:F1:0F:7C"
+  ],
+  "volume": 0.5,
+  "frequentie": 1
+}
+
+Can simulate until 5 devices
+
