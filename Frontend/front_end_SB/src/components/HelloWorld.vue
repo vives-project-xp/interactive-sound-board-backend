@@ -144,7 +144,6 @@ const createConnection = () => {
     const connectUrl = "ws://pi-of-terror:8080/ws";
     //const connectUrl = "ws://mqtt.devbit.be:80/ws";
 
-    //options
     const { options } = connection;
 
     client.value = mqtt.connect(connectUrl, options);
@@ -162,7 +161,6 @@ const createConnection = () => {
        ///receiveNews.value = receiveNews.value.concat(message.toString());
         console.log(`received message: ${message} from topic: ${topic}`);
         // We add the message recived by the topic devices
-
 
           devices_.value = JSON.parse(message.toString());
           console.log(`Devices Value :`);
@@ -340,12 +338,28 @@ onMounted(()=>{
 </script>
 
 <template>
+
+  
+
   <v-container>
     <v-row>
       <v-col class="mb-4">
-            <h1 class="display-2 font-weight-bold mb-3">
+
+            <v-div class="display-2 font-weight-bold mb-3 text-h2">
               Interactive Soundboard
-            </h1>
+            </v-div> 
+
+            <v-spacer></v-spacer>
+
+              <v-card class="mt-5 mb-5 md-6" color="black">
+                <v-p> Welcome to interactive soundboard, you can see all the availabel devices, you can change 
+                  the volume and the frequency. If you wish you can also change the synthesiser function to Trinagle, Square and Sawtooth to give it an other touch, feel free to 
+                  change the parameter. 
+                </v-p>
+
+              </v-card>
+          
+  
                           <v-select
                             label="Which boxes are connected?"
                             v-model="boxes"
@@ -363,7 +377,7 @@ onMounted(()=>{
           </v-card>
     </v-col>
 
-<v-col cols="12">
+<v-col cols="12" class="text-h4">
 
 <p align="left">Volume: </p>
 
@@ -387,25 +401,11 @@ onMounted(()=>{
         ticks
   ></v-slider>
 
-  <form action="/action_page.php" align="left">
-                          <label for="wave">Choose the wave: </label>
 
-                            <select id="wave" name="wave">
-
-                            <option value="sinus">Sinus</option>
-
-                            <option value="triangle">Triangle</option>
-
-                            <option value="square">Square</option>
-
-                            <option value="sawtooth">Sawtooth</option>
-
-                          </select>
-</form>
 
 <v-cols cols="12" class="mt-5">
 
-<v-p> Your chosen wave is </v-p>  <v-p class="text-h5 color-purple">{{wave.name}}</v-p>
+<v-p> Your chosen wave is </v-p>  <v-p class="text-h3 color-purple">{{wave.name}}</v-p>
 
 <v-spacer> </v-spacer>
 
@@ -443,24 +443,14 @@ onMounted(()=>{
 -->
 
 </v-cols>
-
-
-
 </v-col>
-
-
     </v-row>
   </v-container>
 
 </template>
-
-
-
 <style scoped>
     .primary{
         color: purple; 
         
     }
-   
-
 </style>
