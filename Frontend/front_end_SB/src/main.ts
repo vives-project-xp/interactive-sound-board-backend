@@ -3,12 +3,14 @@ import App from './App.vue'
 import router from './router'
 import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
+import  {createPinia} from 'pinia'
 
 //mqtt 
 import mqttVueHook from 'mqtt-vue-hook'
 
 loadFonts()
 
+const pinia = createPinia();
 //We add ur mqqt instance
 const  protocol =  'mqtt';
 const host = "mqtt.devbit.be";
@@ -19,7 +21,7 @@ const port = 1883;
 createApp(App)
   .use(router)
   .use(vuetify)
-
+  .use(pinia)
   .use(mqttVueHook, `${protocol}://${host}:${port}`, {
     clean: false,
     keepalive: 60,
