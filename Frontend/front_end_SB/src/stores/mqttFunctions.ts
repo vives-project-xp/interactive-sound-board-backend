@@ -116,8 +116,8 @@ const initData = () => {
     try {
       
       // Connection URL 
-      //const connectUrl = "ws://pi-of-terror:8080/ws";
-      const connectUrl = "ws://mqtt.devbit.be:80/ws";
+      const connectUrl = "ws://pi-of-terror:8080/ws";
+     // const connectUrl = "ws://mqtt.devbit.be:80/ws";
       client.value = mqtt.connect(connectUrl);
   
       if (client.value.on) {
