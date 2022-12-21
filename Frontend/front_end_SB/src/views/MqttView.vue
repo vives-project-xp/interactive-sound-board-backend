@@ -23,12 +23,11 @@ onMounted(()=>{
   // We let de synthesiser know that we are ready 
   mqttF.doPublishOnceStart();
 
-  
 })
 
 // Watchers
 
-// We publisch only when the value changes in box1.value
+// We publisch only when the value changes in volume values 
 watch(mqttF.volume, async(newval, oldval) => {
   console.log("publisching value via Watch")
   mqttF.doPublishVolume();
@@ -45,6 +44,7 @@ watch(mqttF.wave, async(newval, oldval) => {
   mqttF.pub_wave();
 })
 
+
 //All ur devices
 const devices_ = ref([] as Devices[]);
 
@@ -60,7 +60,7 @@ const devices_ = ref([] as Devices[]);
             </v-div> 
             <v-spacer></v-spacer>
             
-                <v-p class="text-white text-h5 text-h3 text-grey darken-2"> Welcome to interactive soundboard, you can see all the available devices, you can change 
+                <v-p class="text-white text-h5 text-h3 text-grey darken-3"> Welcome to interactive soundboard, you can see all the available devices, you can change 
                   the volume and the frequency. If you wish, you can also change the synthesiser function to Triangle, Square and Sawtooth to give it an other touch, feel free to 
                   change the parameter.
                 </v-p>
@@ -70,15 +70,16 @@ const devices_ = ref([] as Devices[]);
                             v-model="boxes"
                             :items="mqttF.devices_.activedevices"
                             multiple
-                            class="text-white"
+                            class="text-white "
                             persistent-hint>
                       
                           </v-select>
       <!-- Scalabel for all devices-->
-     <v-card v-for="device in mqttF.devices_.activedevices"
+
+     <v-card class="mt-2 text-h5 text"  v-for="device in mqttF.devices_.activedevices"
       :key="device.id"
 > 
-                  <p align="left">ESP {{device}} </p>
+                  <v-p class="text-purple" align="left">ESP </v-p>  <v-p  align="left">{{device}} </v-p>
           </v-card>
     </v-col>
 
@@ -94,7 +95,8 @@ const devices_ = ref([] as Devices[]);
         ticks
   ></v-slider>
 
-  <p align="left">Frequency: </p>
+  <p class="hidden-xs" align="left">Frequency: </p>
+  <p  class="hidden-xl hidden-lg hidden-md hidden-sm text-black" align="left">Frequency: </p>
 
 <!-- We link it with an frequency box-->
 
@@ -110,7 +112,9 @@ const devices_ = ref([] as Devices[]);
 
 <v-cols cols="12" class="mt-5 text-white ">
 
-<v-p> Your chosen wave is </v-p>  <v-p class="text-h3 text-purple darken-4">{{mqttF.wave.name}}</v-p>
+<v-p class="hidden-xs text-white"> Your chosen wave is </v-p>  
+
+<v-p class="hidden-xl hidden-lg hidden-md hidden-sm text-black"> Your chosen wave is </v-p>  <v-p class="text-h3 text-purple darken-4">{{mqttF.wave.name}}</v-p>
 
 <v-spacer> </v-spacer>
 
@@ -128,7 +132,21 @@ const devices_ = ref([] as Devices[]);
 
 <v-btn class="mt-5 mb-5 text-black" @click="mqttF.sawtooth"> sawtooth</v-btn>
 
-<v-space> </v-space>
+<v-spacer> </v-spacer>
+
+<!-- Octave section-->
+<v-p class="text-black"> Your chosen Octave is </v-p>  <v-p class="text-h3 text-purple darken-4">{{mqttF.octave.name}}</v-p>
+<v-spacer> </v-spacer>
+
+<v-btn class="mt-5 mb-5 text-black" @click="mqttF.Octave2"> 2nd Octave</v-btn>
+
+<v-spacer> </v-spacer>
+
+<v-btn class="mt-5 mb-5 text-black" @click="mqttF.Octave4"> 4Th Octave</v-btn>
+
+<v-spacer> </v-spacer>
+<!-- Add octave  Function Buttons -->
+
 
 
 <!-- 

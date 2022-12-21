@@ -44,7 +44,7 @@ const volume= ref({
 
 //  All the needed reactive variables for the Wave
 const wave = ref ({
-  name: 'sinus',
+  name: 'wave',
   label: 'color', 
   val : '0', 
   color: 'purple',
@@ -52,6 +52,14 @@ const wave = ref ({
   qos: 0 as mqtt.QoS,
 
 
+})
+
+
+const octave = ref ({
+  name : 'octave',
+  val: '',
+  topic: 'test/frontend/octave',
+  qos: 0 as mqtt.QoS,
 })
 
 //  Ur Quality of service from less important to more important
@@ -219,6 +227,19 @@ const pub_wave = () => {
   });
 };
 
+// We publisch ur octave status 
+const octave_pub = () => {
+  const { topic, qos, val } =  octave.value;
+  client.value.publish(topic, val.toString() , { qos }, (error) => {
+    if (error) {
+      console.log("publish error:", error);
+      return;
+    }
+
+    console.log(`published message : ${val}`);
+  });
+};
+
 // disconnect
 // https://github.com/mqttjs/MQTT.js#mqttclientendforce-options-callback
 const destroyConnection = () => {
@@ -274,6 +295,24 @@ function sawtooth (){
 }
 
 
+// Functions For the Octave , need to place call them in the watcher
+
+function Octave2 (){
+  octave.value.val = '2';
+  octave.value.name = 'Octave2'
+  octave_pub()
+  
+}
+function Octave4 (){
+  octave.value.val = '4';
+  octave.value.name = 'Octave4'
+  octave_pub()
+}
+
+
+
+
+
 
     // Soo we can access ur functions 
     return{
@@ -292,7 +331,11 @@ function sawtooth (){
         sinus,
         triangle, 
         square, 
-        sawtooth
+        sawtooth,
+        octave,
+        Octave2, 
+        Octave4
+
 
 
 
