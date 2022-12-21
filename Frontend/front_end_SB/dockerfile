@@ -1,0 +1,20 @@
+#node
+FROM node:16-alpine
+
+#Alle commandos worden in de WORKDIR uitgevoerd 
+WORKDIR /front_end_SB
+#source is de map waar dat je vertrekt .(eerste ) tweede(.) in de myApp gaan kopieren 
+COPY . . 
+# gaan opslitsen 
+
+# eerst de package.json eerst de depandencies en erna de rest. Dit doet je doordat het ge cashed word. 
+COPY package*.json . 
+
+#Voor het bouwen van de container 
+RUN npm install
+
+#port dat je open plaats 
+EXPOSE 8080
+
+#
+CMD ["npm","run","dev"]
