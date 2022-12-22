@@ -556,7 +556,7 @@ For the visualsation i find out that trying multiple styles and trying out diffe
 
 ## Example
 
-![front-end](./Frontend/front_end_SB/img/Front-end.gif)
+![front-end](./Front-end.gif)
 
 # bibliography
 //https://javascript.info/promise-basics
